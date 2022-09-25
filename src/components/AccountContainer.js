@@ -1,38 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import TransactionsList from "./TransactionsList";
 import Search from "./Search";
 import AddTransactionForm from "./AddTransactionForm";
 
 function AccountContainer() {
-  const [selectedDescription, setSelectedDescription] = useState("All");
-  const [transactions, setTransactions] = useState([]);
+  const [transactionsListed, setTransactionsListed] = useState([]);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     fetch("http://localhost:8001/transactions")
-      .then((r) => r.json())
-      .then((transactions) => setTransactions(transactions));
+      .then((res) => res.json())
+      .then((data) => setTransactionsListed(data));
     }, []);
 
-  function handleDescriptionChange(description) {
-    setSelectedDescription(description);
+  function addTransaction(newTransaction) {
+    const updateTransactions = [...transactionsListed, newTransaction]
+    setTransactionsListed(updateTransactions)
   }
-
-  const transactionsToDisplay = transactions.filter((transactions) => {
-    if (selectedDescription === "All") return true;
-
-    return transactions.description === selectedDescription;
-  });
+  
+  function searchTransaction(newSearch){
+    setSearch(newSearch)
+  }
 
   return (
     <div>
-      <Search description={selectedDescription}
-        onDescriptionChange={handleDescriptionChange}/>
-      <AddTransactionForm />
-      <ul className="Transactions">
-        {transactionsToDisplay.map((transaction) => (
-      <TransactionsList key={transaction.id} transaction={transaction}/>
-      ))}
-      </ul>
+      <Search search={search} onSearchTransaction={searchTransaction} />
+      <AddTransactionForm onAddTransaction={addTransaction}/>
+      <TransactionsList transactionsListed={transactionsListed} search={search} />
     </div>
   );
 }

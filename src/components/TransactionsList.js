@@ -1,16 +1,14 @@
 import React from "react";
 import Transaction from "./Transaction";
+import Find from "./Find"
 
-function TransactionsList(transactions) { 
-  const transactionsList = transactions.map (() => (
-  <Transaction
-  key={transactions.id}
-  date={transactions.date}
-  description={transactions.description}
-  category={transactions.category}
-  amount={transactions.amount}
-/>
-));
+function TransactionsList(props) {
+  let transactionArrayComponents = props.transactions.map(transactionObj => {
+    return <Transaction 
+            key={transactionObj.id} 
+            transaction={transactionObj} 
+          />
+  })
   return (
     <table className="ui celled striped padded table">
       <tbody>
@@ -20,6 +18,7 @@ function TransactionsList(transactions) {
           </th>
           <th>
             <h3 className="ui center aligned header">Description</h3>
+            < Find find={props.find} findFun={props.findFun}/>
           </th>
           <th>
             <h3 className="ui center aligned header">Category</h3>
@@ -28,10 +27,10 @@ function TransactionsList(transactions) {
             <h3 className="ui center aligned header">Amount</h3>
           </th>
         </tr>
-        {transactionsList}
+        {<transactionArrayComponents />}
       </tbody>
     </table>
   );
 }
 
-export default TransactionsList;
+export default TransactionsList; 
