@@ -24,8 +24,8 @@ function AccountContainer() {
 
   return (
     <div>
-      <Search search={search} onSearchTransaction={searchTransaction} />
-      <AddTransactionForm onAddTransaction={addTransaction}/>
+      <Search search={search} searchTrans={searchTransaction} />
+      <AddTransactionForm addTrans={addTransaction}/>
       <TransactionsList transactionsListed={transactionsListed} search={search} />
     </div>
   );

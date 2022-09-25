@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function AddTransactionForm({ onAddTransaction }) {
+function AddTransactionForm({ addTrans }) {
   const [transactionFormData, setTransactionFormData] = useState({
     date: "", 
     description: "", 
@@ -26,17 +26,17 @@ function AddTransactionForm({ onAddTransaction }) {
     body: JSON.stringify(transactionFormData),
   })
     .then((res) => res.json())
-    .then((data) => onAddTransaction(data));
+    .then((data) => addTrans(data));
   }
 
   return (
     <div className="ui segment">
       <form className="ui form" onSubmit={handleSubmit}>
         <div className="inline fields">
-          <input type="date" name="date" value={transactionFormData.date} placeholder="Date" onChange={handleChange}/>
-          <input type="text" name="description" value={transactionFormData.description} placeholder="Description" onChange={handleChange}/>
-          <input type="text" name="category" value={transactionFormData.category} placeholder="Category" onChange={handleChange}/>
-          <input type="number" name="amount" value={transactionFormData.amount} placeholder="Amount" step="0.01" onChange={handleChange} />
+          <input type="date" name="date" value={transactionFormData.date} id="date" placeholder="Date" onChange={handleChange}/>
+          <input type="text" name="description" value={transactionFormData.description} id="description" placeholder="Description" onChange={handleChange}/>
+          <input type="text" name="category" value={transactionFormData.category} id="category" placeholder="Category" onChange={handleChange}/>
+          <input type="number" name="amount" value={transactionFormData.amount} id="amount" placeholder="Amount" step="0.01" onChange={handleChange} />
         </div>
         <button className="ui button" type="submit" >
           Add Transaction
